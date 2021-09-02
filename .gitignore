@@ -1,0 +1,5 @@
+# files to be excluded from being pushed remotely
+# (these are usually raw datafiles, which can be easily produced)
+
+# ignore ROOTfiles
+*.root
