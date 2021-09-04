@@ -25,28 +25,53 @@ void make_2Doptics(int file_type=-1){
   //Define output ROOTfilename
   TString outputhist;
 
-  // Define Quad tuning minimum, maximum and stepsize (depends on which training files used)
-  float q1_min = 0.9;
-  float q1_max = 1.1;
-  float q1_step = 0.01;   
-
-  float q2_min = 0.9;
-  float q2_max = 1.1;
-  float q2_step = 0.01;    
-
-  float q3_min = 0.9;
-  float q3_max = 1.1;
-  float q3_step = 0.01; 
+  // Define quad tune variables (range, stepsize)
+  float q1_min;  
+  float q1_max;  
+  float q1_step;   
+	               
+  float q2_min;  
+  float q2_max;  
+  float q2_step;    
+	               
+  float q3_min;  
+  float q3_max;  
+  float q3_step; 
+  
+  // Define training data Quad tuning minimum, maximum and stepsize
+  // set (range, stepsize) based on the filenames range read in
+  if(file_type==1){
+    q1_min = 0.9;  
+    q1_max = 1.12;  
+    q1_step = 0.001;
     
-  // Define quads tuning of training files (to be used in file naming)  
-  float Q1_arr[11] = {0.90, 0.92, 0.94, 0.96, 0.98, 1.00, 1.02, 1.04, 1.06, 1.08, 1.10 }; 
-  float Q2_arr[11] = {0.95, 0.96, 0.97, 0.98, 0.99, 1.00, 1.01, 1.02, 1.03, 1.04, 1.05 };
-  float Q3_arr[11] = {0.90, 0.92, 0.94, 0.96, 0.98, 1.00, 1.02, 1.04, 1.06, 1.08, 1.10 };
+    q2_min = 0.9;  
+    q2_max = 1.12;  
+    q2_step = 0.001;
+    
+    q3_min = 0.9;  
+    q3_max = 1.12;  
+    q3_step = 0.001;
+  }
 
+  // Define testing data Quad tuning minimum, maximum and stepsize
+  else if(file_type==2){
+    q1_min = 0.905;  
+    q1_max = 1.12;  
+    q1_step = 0.001;
+    
+    q2_min = 0.905;  
+    q2_max = 1.12;  
+    q2_step = 0.001;
+    
+    q3_min = 0.905;  
+    q3_max = 1.12;  
+    q3_step = 0.001;
+
+  }
 
   // Define quads tuning of tests files (Q1 and Q3 are set to 1.00)
-  float Q2test_arr[11] = {0.945, 0.955, 0.965, 0.975, 0.985, 0.995, 1.015, 1.025, 1.035, 1.045, 1.055};
-
+  
   
   gStyle->SetPalette(1,0);
   gStyle->SetOptStat(1);
@@ -75,8 +100,7 @@ void make_2Doptics(int file_type=-1){
 	}
 	else if(file_type==2){
 	  //Define input ROOT filename
-	  inputroot =  "../ROOTfiles/test_files/" +basename + Form("_Q1_%.2f_Q2_%.3f_Q3_%.2f", q1, q2, q3) + ".root";
-	  cout << "filename = " << inputroot << endl;
+	  inputroot =  "../ROOTfiles/testing_files/" +basename + Form("_Q1_%.2f_Q2_%.2f_Q3_%.3f", q1, q2, q3) + ".root";
 	}
 	
 	//Check if filename exists
@@ -88,12 +112,16 @@ void make_2Doptics(int file_type=-1){
 
 	if(file_type==1){
 	  //Create output ROOTfile name to store the 2D optics plots to be done
-	  outputhist = "../ROOTfiles/training_files/" + basename + Form("_Q1_%.2f_Q2_%.2f_Q3_%.2f_hist.root", q1, q2, q3);
+	  outputhist = "../ROOTfiles/training_files/" + basename + Form("_Q1_%.3f_Q2_%.3f_Q3_%.3f_hist.root", q1, q2, q3);
 	}
 	else if(file_type==2){
 
 	  //Create output ROOTfile name to store the 2D optics plots to be done
-	  outputhist = "../ROOTfiles/test_files/" + basename + Form("_Q1_%.2f_Q2_%.3f_Q3_%.2f_hist.root", q1, q2, q3);
+	  outputhist = "../ROOTfiles/testing_files/" + basename + Form("_Q1_%.3f_Q2_%.3f_Q3_%.3f_hist.root", q1, q2, q3);
+	  cout << "(q1,q2,q3) = " << q1 << ", " << q2 << ", " << q3 << endl;
+	  cout << "filename_in = " << inputroot << endl;
+	  cout << "filename_out = " << outputhist << endl;
+
 	}
 	
 	TString htitle=basename;

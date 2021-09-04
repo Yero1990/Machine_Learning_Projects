@@ -52,29 +52,29 @@ if analysis=='train':
     # training range
     q1_min = 0.90
     q1_max = 1.12
-    q1_step = 0.02
+    q1_step = 0.001
     
-    q2_min = 0.95
-    q2_max = 1.06
-    q2_step = 0.01
+    q2_min = 0.90
+    q2_max = 1.12
+    q2_step = 0.001
     
     q3_min = 0.90
     q3_max = 1.12
-    q3_step = 0.02
+    q3_step = 0.001
 
 if analysis=='test':
     # testing range
-    q1_min = 1.00
-    q1_max = 1.0001
-    q1_step = 0.01
+    q1_min = 0.905
+    q1_max = 1.12
+    q1_step = 0.001
     
-    q2_min = 0.955
-    q2_max = 1.065
-    q2_step = 0.01
+    q2_min = 0.905
+    q2_max = 1.12
+    q2_step = 0.001
     
-    q3_min = 1.00
-    q3_max = 1.0001
-    q3_step = 0.01
+    q3_min = 0.905
+    q3_max = 1.12
+    q3_step = 0.001
 
 
 
@@ -86,20 +86,24 @@ for Q1 in np.arange(q1_min, q1_max, q1_step):
             
             # define inputfile name
             if analysis=='train':
-                ifname = "../ROOTfiles/training_files/shms_pointtarg_7p5deg_2gev_wc_mscat_vac_shms_vary_Q1_%.2f_Q2_%.2f_Q3_%.2f_hist.root" % (Q1, Q2, Q3)
+                ifname = "../ROOTfiles/training_files/shms_pointtarg_7p5deg_2gev_wc_mscat_vac_shms_vary_Q1_%.3f_Q2_%.3f_Q3_%.3f_hist.root" % (Q1, Q2, Q3)
             elif analysis=='test':
-                ifname = "../ROOTfiles/test_files/shms_pointtarg_7p5deg_2gev_wc_mscat_vac_shms_vary_Q1_%.2f_Q2_%.3f_Q3_%.2f_hist.root" % (Q1, Q2, Q3)
-                
+                ifname = "../ROOTfiles/testing_files/shms_pointtarg_7p5deg_2gev_wc_mscat_vac_shms_vary_Q1_%.3f_Q2_%.3f_Q3_%.3f_hist.root" % (Q1, Q2, Q3)
 
+            print('(q1,q2,q3)=', Q1,', ',Q2,', ',Q3)
+            print('ifname = ', ifname)
                 
             # check if file exists
             if os.path.exists(ifname):
+                print('FILE EXISTS!')
                 # Open ROOT file with histogram objects
                 tf = TFile(ifname, "READ")
             else:
+                print('FILE NOT EXISTS!')
                 continue
 
- 
+            
+            
             # Get histogram object (focal plance correlation plots)
             H_xfp_yfp   = gROOT.FindObject('hxfp_yfp')
             H_xfp_ypfp  = gROOT.FindObject('hxfp_ypfp')
@@ -176,7 +180,7 @@ for i in range(len(key)):
 h5f.close()
     
 
-
+'''
 #-------------------------------
 # Read/plot HD5 file
 # (For instructional purposes)
@@ -238,3 +242,4 @@ if analysis=='train':
     print('Plot Title of image [0]: ', h5f['titles']['xfp_vs_xpfp'][0])
 
     
+'''
